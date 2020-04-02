@@ -1,33 +1,30 @@
 package pl.tarkiewicz.springsecuritysimplefactorauth;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import pl.tarkiewicz.springsecuritysimplefactorauth.Tire.Executor.Actions.CreateExecutor;
-import pl.tarkiewicz.springsecuritysimplefactorauth.Tire.Executor.OperationActions;
-import pl.tarkiewicz.springsecuritysimplefactorauth.Tire.Executor.TireInput;
-import pl.tarkiewicz.springsecuritysimplefactorauth.Tire.Season;
-import pl.tarkiewicz.springsecuritysimplefactorauth.Tire.Tire;
-import pl.tarkiewicz.springsecuritysimplefactorauth.Tire.TireRepo;
-import pl.tarkiewicz.springsecuritysimplefactorauth.TireBought.TireBought;
-import pl.tarkiewicz.springsecuritysimplefactorauth.TireBought.TireBoughtService;
-import pl.tarkiewicz.springsecuritysimplefactorauth.TireDto.TireWithDetailsWebCommand;
-import pl.tarkiewicz.springsecuritysimplefactorauth.User.User;
-import pl.tarkiewicz.springsecuritysimplefactorauth.User.UserRepo;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.executor.CreateTireExecutor;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.operation.Type;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.operation.OperationInput;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Season;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.TireRepo;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireBought.TireBoughtService;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.command.TireWithDetailsWebCommand;
+import pl.tarkiewicz.springsecuritysimplefactorauth.user.User;
+import pl.tarkiewicz.springsecuritysimplefactorauth.user.UserRepo;
 
 @Component
 public class Start {
 
     private UserRepo userRepo;
-    private final CreateExecutor createExecutor;
+    private final CreateTireExecutor createTireExecutor;
     private final TireBoughtService tireBoughtService;
     private final TireRepo tireRepo;
 
-    public Start(UserRepo userRepo, PasswordEncoder passwordEncoder, CreateExecutor createExecutor, TireBoughtService tireBoughtService, TireRepo tireRepo) {
+    public Start(UserRepo userRepo, PasswordEncoder passwordEncoder, CreateTireExecutor createTireExecutor, TireBoughtService tireBoughtService, TireRepo tireRepo) {
         this.userRepo = userRepo;
-        this.createExecutor = createExecutor;
+        this.createTireExecutor = createTireExecutor;
         this.tireBoughtService = tireBoughtService;
         this.tireRepo = tireRepo;
 
@@ -53,9 +50,9 @@ public class Start {
                 .wide(3)
                 .build();
 
-        TireInput tireInput = TireInput.builder().tireWithDetailsWebCommand(tireWithDetailsWebCommand)
-                .operationActions(OperationActions.CREATE).build();
-        createExecutor.execute(tireInput);
+        OperationInput operationInput = OperationInput.builder().tireWithDetailsWebCommand(tireWithDetailsWebCommand)
+                .type(Type.ADD).build();
+        createTireExecutor.execute(operationInput);
 
 //        TireBought tireBought = new TireBought();
 //        tireBought.setUser(user);
