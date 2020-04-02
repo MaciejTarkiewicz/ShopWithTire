@@ -57,7 +57,6 @@ public class TireController {
                 .tireWithDetailsWebCommand(tireWithDetailsWebCommand)
                 .type(Type.ADD)
                 .build();
-        operationManager.apply(operationInput);
         return ResultCreator.create(Stream.of(operationInput).map(operationManager::apply).collect(Collectors.toList()));
 
     }
@@ -79,7 +78,6 @@ public class TireController {
                 .tireDetailsId(tireDetailsId)
                 .type(Type.DELETE)
                 .build();
-        operationManager.apply(operationInput);
         return ResultCreator.create(Stream.of(operationInput).map(operationManager::apply).collect(Collectors.toList()));
 
     }
@@ -91,7 +89,6 @@ public class TireController {
                 .tirePriceCommand(tirePriceCommand)
                 .type(Type.UPDATE)
                 .build();
-        operationManager.apply(operationInput);
         return ResultCreator.create(Stream.of(operationInput).map(operationManager::apply).collect(Collectors.toList()));
 
     }
@@ -103,7 +100,6 @@ public class TireController {
                 .tireWithDetailsWebCommand(tireWithDetailsWebCommand)
                 .type(Type.UPDATE)
                 .build();
-        operationManager.apply(operationInput);
         return ResultCreator.create(Stream.of(operationInput).map(operationManager::apply).collect(Collectors.toList()));
 
     }
