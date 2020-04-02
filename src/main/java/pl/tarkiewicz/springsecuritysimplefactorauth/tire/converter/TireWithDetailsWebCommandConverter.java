@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
-import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Tire;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.command.TireWithDetailsWebCommand;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.dto.TireDto;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Tire;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireDetails.TireDetails;
 
 @Component
@@ -19,7 +19,7 @@ public class TireWithDetailsWebCommandConverter {
         tireDetails.setProfile(tireWithDetailsWebCommand.getProfile());
         tireDetails.setSeason(tireWithDetailsWebCommand.getSeason());
         tireDetails.setWide(tireWithDetailsWebCommand.getWide());
-        tireDetails.setTireLists(createTire(tireWithDetailsWebCommand));
+        tireDetails.setTireLists(createTires(tireWithDetailsWebCommand));
         return tireDetails;
     }
 
@@ -29,19 +29,23 @@ public class TireWithDetailsWebCommandConverter {
         tireDetails.setProfile(tireWithDetailsWebCommand.getProfile());
         tireDetails.setSeason(tireWithDetailsWebCommand.getSeason());
         tireDetails.setWide(tireWithDetailsWebCommand.getWide());
-        tireDetails.setTireLists(createTire(tireWithDetailsWebCommand));
+        tireDetails.setTireLists(createTires(tireWithDetailsWebCommand));
         tireDetails.getTireLists().forEach(tire -> tire.setPrice(tireWithDetailsWebCommand.getPrice()));
         return tireDetails;
     }
 
-    private List<Tire> createTire(TireWithDetailsWebCommand tireWithDetailsWebCommand) {
+    private List<Tire> createTires(TireWithDetailsWebCommand tireWithDetailsWebCommand) {
         List<Tire> tireLists = new ArrayList<>();
         for (int i = 0; i < tireWithDetailsWebCommand.getCount(); i++) {
-            Tire tire = new Tire();
-            tire.setPrice(tireWithDetailsWebCommand.getPrice());
-            tireLists.add(tire);
+            addTire(tireWithDetailsWebCommand, tireLists);
         }
         return tireLists;
+    }
+
+    private void addTire(TireWithDetailsWebCommand tireWithDetailsWebCommand, List<Tire> tireLists) {
+        Tire tire = new Tire();
+        tire.setPrice(tireWithDetailsWebCommand.getPrice());
+        tireLists.add(tire);
     }
 
     public TireDto toDto(Tire tire) {

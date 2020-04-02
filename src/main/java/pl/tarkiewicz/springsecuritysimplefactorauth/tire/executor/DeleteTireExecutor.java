@@ -56,7 +56,7 @@ public class DeleteTireExecutor implements OperationExecutor {
                 });
 
             } else {
-                log.warn("Liczba opon do usuniecia nie jest liczba dodtatnia");
+                throw new Exception("The number of tires to be removed is not a positive number");
             }
 
         }

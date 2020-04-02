@@ -1,31 +1,31 @@
-package pl.tarkiewicz.springsecuritysimplefactorauth;
+package pl.tarkiewicz.springsecuritysimplefactorauth.tire;
 
 import java.math.BigDecimal;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.command.TireWithDetailsWebCommand;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.executor.CreateTireExecutor;
-import pl.tarkiewicz.springsecuritysimplefactorauth.tire.operation.Type;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.operation.OperationInput;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.operation.Type;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Season;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.TireRepo;
-import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireBought.TireBoughtService;
-import pl.tarkiewicz.springsecuritysimplefactorauth.tire.command.TireWithDetailsWebCommand;
 import pl.tarkiewicz.springsecuritysimplefactorauth.user.User;
 import pl.tarkiewicz.springsecuritysimplefactorauth.user.UserRepo;
+//import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireBought.TireBoughtRepo;
 
 @Component
 public class Start {
 
     private UserRepo userRepo;
     private final CreateTireExecutor createTireExecutor;
-    private final TireBoughtService tireBoughtService;
+    //private final TireBoughtService tireBoughtService;
     private final TireRepo tireRepo;
 
-    public Start(UserRepo userRepo, PasswordEncoder passwordEncoder, CreateTireExecutor createTireExecutor, TireBoughtService tireBoughtService, TireRepo tireRepo) {
+    public Start(UserRepo userRepo, PasswordEncoder passwordEncoder, CreateTireExecutor createTireExecutor, TireRepo tireRepo) {
         this.userRepo = userRepo;
         this.createTireExecutor = createTireExecutor;
-        this.tireBoughtService = tireBoughtService;
+        //this.tireBoughtService = tireBoughtService;
         this.tireRepo = tireRepo;
 
         User user = new User();
