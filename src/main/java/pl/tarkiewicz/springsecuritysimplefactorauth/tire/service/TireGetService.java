@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.tarkiewicz.springsecuritysimplefactorauth.exceptions.NotFoundException;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Season;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Tire;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.TireRepo;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireDetails.TireDetailRepo;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireDetails.TireDetails;
@@ -47,6 +48,16 @@ public class TireGetService {
                 .map(tireWithDetailsWebCommandConverter::toDto)
                 .collect(Collectors.toList());
     }
+
+    public List<Tire> getAllNotBoughtTiresByTireDetails(TireDetails tireDetails) {
+        return tireDetailRepo.findById(tireDetails.getId())
+                .stream()
+                .map(TireDetails::getTireLists)
+                .flatMap(Collection::stream)
+                .filter(tire -> !tire.isBought())
+                .collect(Collectors.toList());
+    }
+
 
     public TireDetails getTireDetailsById(Long tireDetailsId) {
         return tireDetailRepo.findById(tireDetailsId).orElseThrow(() -> new NotFoundException(String.format("TireDetail with following id %s not found", tireDetailsId)));

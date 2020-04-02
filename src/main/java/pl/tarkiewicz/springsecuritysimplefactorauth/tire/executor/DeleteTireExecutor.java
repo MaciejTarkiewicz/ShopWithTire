@@ -1,6 +1,5 @@
 package pl.tarkiewicz.springsecuritysimplefactorauth.tire.executor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -44,11 +43,11 @@ public class DeleteTireExecutor implements OperationExecutor {
 
     private void deleteTires(OperationInput operationInput) throws Exception {
         TireDetails tireDetails = tireGetService.getTireDetailsById(operationInput.getTireDetailsId());
-        if (tireDeleteService.TiresToDelete(tireDetails).size() < operationInput.getTireAmountCommand().getAmount()) {
+        if (tireGetService.getAllNotBoughtTiresByTireDetails(tireDetails).size() < operationInput.getTireAmountCommand().getAmount()) {
             throw new Exception("Cannot be removed because this tires has been bought");
         } else {
             if (operationInput.getTireAmountCommand().getAmount() > 0) {
-                List<Tire> tires = tireDeleteService.TiresToDelete(tireDetails);
+                List<Tire> tires = tireGetService.getAllNotBoughtTiresByTireDetails(tireDetails);
                 tires.subList(0, tires.size() - operationInput.getTireAmountCommand().getAmount()).clear();
                 tires.forEach(tire -> {
                     tireDetails.getTireLists().remove(tire);
