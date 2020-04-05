@@ -35,7 +35,7 @@ public class DeleteTireExecutor implements OperationExecutor {
                 }
                 return new OperationResult(Type.DELETE, Status.SUCCESS, List.of());
             } catch (Exception e) {
-                return new OperationResult(Type.DELETE, Status.FAILURE, List.of());
+                return new OperationResult(Type.DELETE, Status.FAILURE, List.of(e.getMessage()));
             }
         }
         return new OperationResult(Type.DELETE, Status.SKIPPED, List.of());

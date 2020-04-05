@@ -1,10 +1,16 @@
 package pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,6 +30,7 @@ import pl.tarkiewicz.springsecuritysimplefactorauth.tire.executor.CreateTireExec
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.executor.DeleteTireExecutor;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.executor.UpdateTireExecutor;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.service.TireGetService;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireDetails.TireDetails;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.utils.ResultCreator;
 
 @RestController
@@ -41,13 +48,19 @@ public class TireController {
         this.tireGetService = tireGetService;
     }
 
+    @GetMapping("/example")
+    public List<TireDto> example(TireDto tireDto) {
+        return tireGetService.getAllTiresByDtoParameters(tireDto);
+    }
+
     @GetMapping(value = "/tire/details/all")
-    public List<TireDto> getAllTireWithDetails() {
+    public List<TireDto> getAllTiresWithDetails() {
+
         return tireGetService.getAllTire();
     }
 
     @GetMapping(value = "/tire/details/all/{season}")
-    public List<TireDto> getAllTireWithDetailsBySeason(@PathVariable Season season) {
+    public List<TireDto> getAllTiresWithDetailsBySeason(@PathVariable Season season) {
         return tireGetService.getAllBySeason(season);
     }
 
