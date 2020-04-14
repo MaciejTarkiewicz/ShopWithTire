@@ -1,47 +1,39 @@
 package pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireDetails;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Season;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Tire;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class TireDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Integer wide;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private Integer wide;
 
-    @Enumerated(value = EnumType.STRING)
-    private Season season;
+	@Enumerated(value = EnumType.STRING)
+	private Season season;
 
-    private Integer profile;
+	private Integer profile;
 
-    private Integer diameter;
+	private Integer diameter;
 
-    private String mark;
+	private String mark;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "tire_details_id")
-    private List<Tire> tireLists = new ArrayList<>();
+	// IMO: powinno byc one to one
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@JoinColumn(name = "tire_details_id")
+	@Builder.Default
+	private List<Tire> tireLists = new ArrayList<>();
 
 }
