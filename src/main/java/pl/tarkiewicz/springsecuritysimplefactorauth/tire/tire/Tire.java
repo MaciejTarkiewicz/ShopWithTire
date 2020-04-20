@@ -11,16 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireBought.TireBought;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireDetails.TireDetails;
 
 @Entity
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class Tire {
 
     @Id
