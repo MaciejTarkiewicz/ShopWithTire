@@ -15,7 +15,6 @@ import pl.tarkiewicz.springsecuritysimplefactorauth.tire.validation.DeleteTireVa
 public class TireDeleteService {
 
     private final TireDetailRepo tireDetailRepo;
-    private final TireDeleteService tireDeleteService;
     private final TireGetService tireGetService;
     private final DeleteTireValidation deleteTireValidation;
 
@@ -37,7 +36,6 @@ public class TireDeleteService {
     public void deleteTireDetailWithAllTire(OperationInput operationInput) throws Exception {
         TireDetails tireDetails = tireGetService.getTireDetailsById(operationInput.getTireDetailsId());
         deleteTireValidation.deleteTireWithDetailsValidation(operationInput, tireDetails);
-        tireDeleteService.deleteTireWithDetails(tireGetService.getTireDetailsById(operationInput.getTireDetailsId()));
+        deleteTireWithDetails(tireGetService.getTireDetailsById(operationInput.getTireDetailsId()));
     }
-
 }
