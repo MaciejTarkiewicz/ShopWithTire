@@ -27,7 +27,7 @@ public class DeleteTireValidation {
 
     }
 
-    public void deleteTireWithDetailsValidation(OperationInput operationInput, TireDetails tireDetails) throws PurchaseForTemplateAlreadyExistsException {
+    public void deleteTireWithDetailsValidation(TireDetails tireDetails) throws PurchaseForTemplateAlreadyExistsException {
         if (tireDetails.getTireLists().stream().anyMatch(Tire::isBought)) {
             throw new PurchaseForTemplateAlreadyExistsException();
         }

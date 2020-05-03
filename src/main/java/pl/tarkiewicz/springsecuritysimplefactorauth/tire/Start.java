@@ -62,7 +62,6 @@ public class Start {
 //        tireBought.getTire().setBought(true);
 //        tireRepo.save(tireBought.getTire());
 //        tireBoughtService.buyTire(tireBought);
-
     }
 
 }
