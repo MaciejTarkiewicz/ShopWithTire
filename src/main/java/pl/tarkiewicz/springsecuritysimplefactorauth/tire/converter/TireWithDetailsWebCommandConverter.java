@@ -23,16 +23,18 @@ public class TireWithDetailsWebCommandConverter {
                 .build();
     }
 
-    public List<Tire> createTires(TireWithDetailsWebCommand tireWithDetailsWebCommand) {
+    public List<Tire> createEqualsTiresWithGivenAmount(TireWithDetailsWebCommand tireWithDetailsWebCommand, int amount) { // do testów
         List<Tire> tireLists = new ArrayList<>();
-        for (int i = 0; i < tireWithDetailsWebCommand.getCount(); i++) {
+        for (int i = 0; i < amount; i++) {
             addTire(tireWithDetailsWebCommand, tireLists);
+            tireLists.get(i).setTireDetails(toTireDetails(tireWithDetailsWebCommand));
         }
         return tireLists;
     }
 
-    public Tire createTire(TireWithDetailsWebCommand tireWithDetailsWebCommand){
+    public Tire createTire(TireWithDetailsWebCommand tireWithDetailsWebCommand) {
         Tire tire = new Tire();
+        tire.setBought(false);
         tire.setPrice(tireWithDetailsWebCommand.getPrice());
         return tire;
     }

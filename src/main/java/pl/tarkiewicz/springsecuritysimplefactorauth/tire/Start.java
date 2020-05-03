@@ -58,13 +58,13 @@ public class Start {
                 .build();
 
         TireDetails tireDetails = tireWithDetailsWebCommandConverter.toTireDetails(tireWithDetailsWebCommand);
-        tireDetailRepo.save(tireDetails);
 
         Tire tire = new Tire();
         tire.setId(1L);
         tire.setTireDetails(tireDetails);
         tire.setBought(false);
         tire.setPrice(BigDecimal.valueOf(20.00));
+        tireDetails.setTire(tire);
         tireRepo.save(tire);
 
         OperationInput operationInput = OperationInput.builder()

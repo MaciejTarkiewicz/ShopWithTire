@@ -27,9 +27,10 @@ public class CreateTireExecutor implements OperationExecutor {
     public OperationResult execute(OperationInput operationInput) {
         try {
             TireDetails tireDetails = tireWithDetailsWebCommandConverter.toTireDetails(operationInput.getTireWithDetailsWebCommand());
-           // Tire tire = tireWithDetailsWebCommandConverter.createTire(tireWithDetailsWebCommand); // ?? Jak utworzyć i zapisać Tire przed TireDetails ??
-           // tireSaveService.save(tire); //??
-            tireSaveService.save(tireDetails);
+            Tire tire = tireWithDetailsWebCommandConverter.createTire(operationInput.getTireWithDetailsWebCommand());
+            tire.setTireDetails(tireDetails);
+            tireDetails.setTire(tire);
+            tireSaveService.save(tire);
             return new OperationResult(Type.ADD, Status.SUCCESS, List.of());
         } catch (Exception e) {
             // TODO: słabe to catchowanie wszystkiego, przysłaniasz błędy
