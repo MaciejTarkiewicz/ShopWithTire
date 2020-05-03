@@ -1,6 +1,7 @@
 package pl.tarkiewicz.springsecuritysimplefactorauth.tire;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -9,23 +10,25 @@ import pl.tarkiewicz.springsecuritysimplefactorauth.tire.executor.CreateTireExec
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.operation.OperationInput;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.operation.Type;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Season;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Tire;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.TireRepo;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireBought.TireBought;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireBought.TireBoughtService;
 import pl.tarkiewicz.springsecuritysimplefactorauth.user.User;
 import pl.tarkiewicz.springsecuritysimplefactorauth.user.UserRepo;
-//import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireBought.TireBoughtRepo;
 
 @Component
 public class Start {
 
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
     private final CreateTireExecutor createTireExecutor;
-    //private final TireBoughtService tireBoughtService;
+    private final TireBoughtService tireBoughtService;
     private final TireRepo tireRepo;
 
-    public Start(UserRepo userRepo, PasswordEncoder passwordEncoder, CreateTireExecutor createTireExecutor, TireRepo tireRepo) {
+    public Start(UserRepo userRepo, PasswordEncoder passwordEncoder, CreateTireExecutor createTireExecutor, TireRepo tireRepo, TireBoughtService tireBoughtService) {
         this.userRepo = userRepo;
         this.createTireExecutor = createTireExecutor;
-        //this.tireBoughtService = tireBoughtService;
+        this.tireBoughtService = tireBoughtService;
         this.tireRepo = tireRepo;
 
         User user = new User();
@@ -54,14 +57,14 @@ public class Start {
                 .type(Type.ADD).build();
         createTireExecutor.execute(operationInput);
 
-//        TireBought tireBought = new TireBought();
-//        tireBought.setUser(user);
-//        Tire tire = tireRepo.findById(3L).get();
-//        tireBought.setTire(tire);
-//        tireBought.setBoughtDate(LocalDate.now());
-//        tireBought.getTire().setBought(true);
-//        tireRepo.save(tireBought.getTire());
-//        tireBoughtService.buyTire(tireBought);
+        TireBought tireBought = new TireBought();
+        tireBought.setUser(user);
+        Tire tire = tireRepo.findById(3L).get();
+        tire.setBought(true);
+        tireBought.setTire(tire);
+        tireBought.setBoughtDate(LocalDate.now());
+        tireRepo.save(tireBought.getTire());
+        tireBoughtService.buyTire(tireBought);
     }
 
 }
