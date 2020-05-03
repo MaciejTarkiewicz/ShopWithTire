@@ -24,13 +24,11 @@ public class DeleteTireValidation {
         if (operationInput.getTireAmountCommand().getAmount() <= 0) {
             throw new NotPositiveNumberException();
         }
-
     }
 
     public void deleteTireWithDetailsValidation(OperationInput operationInput, TireDetails tireDetails) throws PurchaseForTemplateAlreadyExistsException {
-        if (tireDetails.getTireLists().stream().anyMatch(Tire::isBought)) {
+        if (tireDetails.getTire().isBought()) {
             throw new PurchaseForTemplateAlreadyExistsException();
         }
     }
-
 }

@@ -29,10 +29,9 @@ public class TireDeleteService {
         List<Tire> tires = tireGetService.getAllNotBoughtTiresByTireDetails(tireDetails);
         tires.subList(0, tires.size() - operationInput.getTireAmountCommand().getAmount()).clear();
         tires.forEach(tire -> {
-            tireDetails.getTireLists().remove(tire);
+            tireDetails.setTire(null); //??
             tire.setTireDetails(null);
         });
-
     }
 
     public void deleteTireDetailWithAllTire(OperationInput operationInput) throws Exception {

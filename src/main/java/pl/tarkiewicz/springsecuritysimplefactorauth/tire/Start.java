@@ -5,14 +5,17 @@ import java.math.BigDecimal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.command.TireWithDetailsWebCommand;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.converter.TireWithDetailsWebCommandConverter;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.executor.CreateTireExecutor;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.operation.OperationInput;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.operation.Type;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Season;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.Tire;
 import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tire.TireRepo;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireDetails.TireDetailRepo;
+import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireDetails.TireDetails;
 import pl.tarkiewicz.springsecuritysimplefactorauth.user.User;
 import pl.tarkiewicz.springsecuritysimplefactorauth.user.UserRepo;
-//import pl.tarkiewicz.springsecuritysimplefactorauth.tire.tireBought.TireBoughtRepo;
 
 @Component
 public class Start {
@@ -21,12 +24,16 @@ public class Start {
     private final CreateTireExecutor createTireExecutor;
     //private final TireBoughtService tireBoughtService;
     private final TireRepo tireRepo;
+    private final TireDetailRepo tireDetailRepo;
+    private final TireWithDetailsWebCommandConverter tireWithDetailsWebCommandConverter;
 
-    public Start(UserRepo userRepo, PasswordEncoder passwordEncoder, CreateTireExecutor createTireExecutor, TireRepo tireRepo) {
+    public Start(UserRepo userRepo, PasswordEncoder passwordEncoder, CreateTireExecutor createTireExecutor, TireRepo tireRepo, TireWithDetailsWebCommandConverter tireWithDetailsWebCommandConverter, TireDetailRepo tireDetailRepo) {
         this.userRepo = userRepo;
         this.createTireExecutor = createTireExecutor;
         //this.tireBoughtService = tireBoughtService;
         this.tireRepo = tireRepo;
+        this.tireWithDetailsWebCommandConverter = tireWithDetailsWebCommandConverter;
+        this.tireDetailRepo = tireDetailRepo;
 
         User user = new User();
         user.setUsername("Janusz");
@@ -50,7 +57,18 @@ public class Start {
                 .wide(3)
                 .build();
 
-        OperationInput operationInput = OperationInput.builder().tireWithDetailsWebCommand(tireWithDetailsWebCommand)
+        TireDetails tireDetails = tireWithDetailsWebCommandConverter.toTireDetails(tireWithDetailsWebCommand);
+        tireDetailRepo.save(tireDetails);
+
+        Tire tire = new Tire();
+        tire.setId(1L);
+        tire.setTireDetails(tireDetails);
+        tire.setBought(false);
+        tire.setPrice(BigDecimal.valueOf(20.00));
+        tireRepo.save(tire);
+
+        OperationInput operationInput = OperationInput.builder()
+                .tireWithDetailsWebCommand(tireWithDetailsWebCommand)
                 .type(Type.ADD).build();
         createTireExecutor.execute(operationInput);
 
@@ -64,5 +82,4 @@ public class Start {
 //        tireBoughtService.buyTire(tireBought);
 
     }
-
 }

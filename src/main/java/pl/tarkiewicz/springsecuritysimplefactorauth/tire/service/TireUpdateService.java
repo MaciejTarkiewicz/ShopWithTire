@@ -22,9 +22,10 @@ public class TireUpdateService {
 
     public void updateTirePrice(OperationInput operationInput) throws NotFoundException {
         TireDetails tireDetails = tireGetService.getTireDetailsById(operationInput.getTireDetailsId());
-        tireGetService.getTireDetailsById(operationInput.getTireDetailsId()).getTireLists().stream()
-                .filter(tire -> !tire.isBought())
-                .forEach(tire -> tire.setPrice(operationInput.getTirePriceCommand().getPrice()));
+        Tire tire = tireGetService.getTireDetailsById(operationInput.getTireDetailsId()).getTire();
+        if(!tire.isBought()){
+            tire.setPrice(operationInput.getTirePriceCommand().getPrice());
+        }
         tireSaveService.save(tireDetails);
         log.info(String.format("Tire price changed to %s", operationInput.getTirePriceCommand().getPrice()));
     }
@@ -41,9 +42,8 @@ public class TireUpdateService {
 
     private boolean isAnyBoughtTire(OperationInput operationInput) throws NotFoundException {
         return tireGetService.getTireDetailsById(operationInput.getTireDetailsId())
-                .getTireLists()
-                .stream()
-                .anyMatch(Tire::isBought);
+                .getTire()
+                .isBought();
     }
 
     private TireDetails toTireDetails(TireWithDetailsWebCommand tireWithDetailsWebCommand, TireDetails tireDetails) {
@@ -52,8 +52,8 @@ public class TireUpdateService {
         tireDetails.setProfile(tireWithDetailsWebCommand.getProfile());
         tireDetails.setSeason(tireWithDetailsWebCommand.getSeason());
         tireDetails.setWide(tireWithDetailsWebCommand.getWide());
-        tireDetails.setTireLists(tireWithDetailsWebCommandConverter.createTires(tireWithDetailsWebCommand));
-        tireDetails.getTireLists().forEach(tire -> tire.setPrice(tireWithDetailsWebCommand.getPrice()));
+        tireDetails.setTire(tireWithDetailsWebCommandConverter.createTire(tireWithDetailsWebCommand));
+        tireDetails.getTire().setPrice((tireWithDetailsWebCommand.getPrice()));
         return tireDetails;
     }
 

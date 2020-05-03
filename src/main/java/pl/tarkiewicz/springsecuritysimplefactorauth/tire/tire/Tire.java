@@ -29,7 +29,7 @@ public class Tire {
 
     private boolean bought;
 
-    @ManyToOne
+    @OneToOne(mappedBy = "tire", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private TireDetails tireDetails;
 
     @OneToOne(mappedBy = "tire", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })

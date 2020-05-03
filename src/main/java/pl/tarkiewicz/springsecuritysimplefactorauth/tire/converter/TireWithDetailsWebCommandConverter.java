@@ -19,7 +19,7 @@ public class TireWithDetailsWebCommandConverter {
                 .profile(tireWithDetailsWebCommand.getProfile())
                 .season(tireWithDetailsWebCommand.getSeason())
                 .wide(tireWithDetailsWebCommand.getWide())
-                .tireLists(createTires(tireWithDetailsWebCommand))
+                .tire(createTire(tireWithDetailsWebCommand))
                 .build();
     }
 
@@ -29,6 +29,12 @@ public class TireWithDetailsWebCommandConverter {
             addTire(tireWithDetailsWebCommand, tireLists);
         }
         return tireLists;
+    }
+
+    public Tire createTire(TireWithDetailsWebCommand tireWithDetailsWebCommand){
+        Tire tire = new Tire();
+        tire.setPrice(tireWithDetailsWebCommand.getPrice());
+        return tire;
     }
 
     private void addTire(TireWithDetailsWebCommand tireWithDetailsWebCommand, List<Tire> tireLists) {
